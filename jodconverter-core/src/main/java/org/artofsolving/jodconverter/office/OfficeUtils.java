@@ -107,7 +107,13 @@ public class OfficeUtils
     public static File getOfficeExecutable(File officeHome)
     {
         if (PlatformUtils.isMac()) {
-            return new File(officeHome, "MacOS/soffice.bin");
+            // Starting with LibreOffice 4.1 the location of the executable has changed on Mac. It's now in
+            // program/soffice. Handle both cases!
+            File executableFile = new File(officeHome, "MacOS/soffice.bin");
+            if (!executableFile.isFile()) {
+                executableFile = new File(officeHome, "program/soffice");
+            }
+            return executableFile;
         } else if (PlatformUtils.isWindows()) {
             return new File(officeHome, "program/soffice.exe");
         } else {

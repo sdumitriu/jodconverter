@@ -152,7 +152,8 @@ class ManagedOfficeProcess
                             ManagedOfficeProcess.this.process.start(true);
                             throw new TemporaryException(connectException);
                         } else {
-                            throw new OfficeException("office process died with exit code " + exitCode);
+                            throw new OfficeException("office process died with exit code " + exitCode,
+                                connectException);
                         }
                     }
                 }
