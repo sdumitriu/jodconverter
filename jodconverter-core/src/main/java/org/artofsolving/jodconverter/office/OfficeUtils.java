@@ -88,7 +88,13 @@ public class OfficeUtils
             return findOfficeHome(
                 "/opt/openoffice.org3",
                 "/opt/libreoffice",
+                "/usr/lib64/openoffice",
+                "/usr/lib64/openoffice.org3",
+                "/usr/lib64/openoffice.org",
+                "/usr/lib64/libreoffice",
                 "/usr/lib/openoffice",
+                "/usr/lib/openoffice.org3",
+                "/usr/lib/openoffice.org",
                 "/usr/lib/libreoffice");
         }
     }
