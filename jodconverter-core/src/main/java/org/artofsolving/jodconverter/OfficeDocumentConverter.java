@@ -20,6 +20,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.artofsolving.jodconverter.document.DefaultDocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.DocumentFormat;
 import org.artofsolving.jodconverter.document.DocumentFormatRegistry;
+import org.artofsolving.jodconverter.filter.ImageEmbedderFilter;
 import org.artofsolving.jodconverter.filter.RefreshFilter;
 import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeManager;
@@ -78,6 +79,7 @@ public class OfficeDocumentConverter
         StandardConversionTask conversionTask = new StandardConversionTask(inputFile, outputFile, outputFormat);
         conversionTask.setDefaultLoadProperties(this.defaultLoadProperties);
         conversionTask.setInputFormat(inputFormat);
+        conversionTask.getFilters().add(new ImageEmbedderFilter());
         conversionTask.getFilters().add(new RefreshFilter());
         this.officeManager.execute(conversionTask);
     }
