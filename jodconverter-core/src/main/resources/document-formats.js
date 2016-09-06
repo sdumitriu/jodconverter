@@ -26,7 +26,10 @@
     "inputFamily": "TEXT",
     "storePropertiesByFamily": {
       "SPREADSHEET": {"FilterName": "HTML (StarCalc)"},
-      "PRESENTATION": {"FilterName": "impress_html_Export"},
+      "PRESENTATION": {
+        "FilterName": "impress_html_Export",
+        "FilterData": {"PublishMode": 0}
+      },
       "TEXT": {"FilterName": "HTML (StarWriter)"}
     }
   },
