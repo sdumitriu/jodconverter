@@ -6,12 +6,12 @@
 
   <groupId>org.artofsolving.jodconverter</groupId>
   <artifactId>jodconverter-core</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.1-xwiki-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>JODConverter - Core Library</name>
   <description>
-    JODConverter converts office documents using OpenOffice.org
+    Java OpenDocument Converter converts office documents using LibreOffice or OpenOffice
   </description>
   <url>http://jodconverter.googlecode.com</url>
   <licenses>
@@ -20,9 +20,15 @@
       <url>http://www.gnu.org/licenses/lgpl.html</url>
     </license>
   </licenses>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.xwiki.org/jira/browse/XJODC</url>
+  </issueManagement>
   <scm>
-    <url>http://jodconverter.googlecode.com/svn/trunk/jodconverter-core</url>
-    <connection>scm:svn:https://jodconverter.googlecode.com/svn/trunk/jodconverter-core/</connection>
+    <connection>scm:git:git://github.com/xwiki/jodconverter.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki/jodconverter.git</developerConnection>
+    <url>https://github.com/xwiki/jodconverter/tree/master/</url>
+    <tag>HEAD</tag>
   </scm>
   <inceptionYear>2003</inceptionYear>
   <developers>
@@ -37,6 +43,9 @@
       <name>Shervin Asgari</name>
       <email>shervin@asgari.no</email>
     </contributor>
+    <contributor>
+      <name>XWiki Development Team</name>
+    </contributor>
   </contributors>
 
   <properties>
@@ -50,6 +59,23 @@
       <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
     </repository>
   </repositories>
+
+  <distributionManagement>
+    <site>
+      <id>nexus.xwiki.org</id>
+      <url>dav:http://nexus.xwiki.org/nexus/content/sites/site/</url>
+    </site>
+    <repository>
+      <id>nexus.xwiki.org</id>
+      <name>XWiki Maven Remote Repository for Externals</name>
+      <url>http://nexus.xwiki.org/nexus/content/repositories/externals/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus.xwiki.org</id>
+      <name>XWiki Maven Development Repository for Snapshots</name>
+      <url>http://nexus.xwiki.org/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <dependencies>
 
