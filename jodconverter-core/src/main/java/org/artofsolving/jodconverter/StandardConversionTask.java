@@ -12,24 +12,27 @@
 //
 package org.artofsolving.jodconverter;
 
-import static org.artofsolving.jodconverter.office.OfficeUtils.cast;
-
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.artofsolving.jodconverter.document.DocumentFamily;
 import org.artofsolving.jodconverter.document.DocumentFormat;
+import org.artofsolving.jodconverter.filter.OfficeDocumentFilter;
+import org.artofsolving.jodconverter.office.OfficeContext;
 import org.artofsolving.jodconverter.office.OfficeException;
 
 import com.sun.star.lang.XComponent;
-import com.sun.star.util.XRefreshable;
 
 public class StandardConversionTask extends AbstractConversionTask
 {
     private final DocumentFormat outputFormat;
 
-    private Map<String, ? > defaultLoadProperties;
+    private final List<OfficeDocumentFilter> filters = new ArrayList<OfficeDocumentFilter>();
+
+    private Map<String, ?> defaultLoadProperties;
 
     private DocumentFormat inputFormat;
 
@@ -39,7 +42,7 @@ public class StandardConversionTask extends AbstractConversionTask
         this.outputFormat = outputFormat;
     }
 
-    public void setDefaultLoadProperties(Map<String, ? > defaultLoadProperties)
+    public void setDefaultLoadProperties(Map<String, ?> defaultLoadProperties)
     {
         this.defaultLoadProperties = defaultLoadProperties;
     }
@@ -49,17 +52,21 @@ public class StandardConversionTask extends AbstractConversionTask
         this.inputFormat = inputFormat;
     }
 
-    @Override
-    protected void modifyDocument(XComponent document) throws OfficeException
+    public List<OfficeDocumentFilter> getFilters()
     {
-        XRefreshable refreshable = cast(XRefreshable.class, document);
-        if (refreshable != null) {
-            refreshable.refresh();
+        return this.filters;
+    }
+
+    @Override
+    protected void modifyDocument(XComponent document, OfficeContext context) throws OfficeException
+    {
+        for (OfficeDocumentFilter filter : this.filters) {
+            filter.filter(document, context);
         }
     }
 
     @Override
-    protected Map<String, ? > getLoadProperties(File inputFile)
+    protected Map<String, ?> getLoadProperties(File inputFile)
     {
         Map<String, Object> loadProperties = new HashMap<String, Object>();
         if (this.defaultLoadProperties != null) {
@@ -72,7 +79,7 @@ public class StandardConversionTask extends AbstractConversionTask
     }
 
     @Override
-    protected Map<String, ? > getStoreProperties(File outputFile, XComponent document)
+    protected Map<String, ?> getStoreProperties(File outputFile, XComponent document)
     {
         DocumentFamily family = OfficeDocumentUtils.getDocumentFamily(document);
         return this.outputFormat.getStoreProperties(family);

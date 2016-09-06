@@ -54,7 +54,7 @@ public abstract class AbstractConversionTask implements OfficeTask
         XComponent document = null;
         try {
             document = loadDocument(context, this.inputFile);
-            modifyDocument(document);
+            modifyDocument(document, context);
             storeDocument(document, this.outputFile);
         } catch (OfficeException officeException) {
             throw officeException;
@@ -105,10 +105,11 @@ public abstract class AbstractConversionTask implements OfficeTask
      * <p>
      * Does nothing by default.
      * 
-     * @param document
-     * @throws OfficeException
+     * @param document the document to modify
+     * @param context the office context, can be used to access office services
+     * @throws OfficeException if document modification fails
      */
-    protected void modifyDocument(XComponent document) throws OfficeException
+    protected void modifyDocument(XComponent document, OfficeContext context) throws OfficeException
     {
         // noop
     }

@@ -20,6 +20,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.artofsolving.jodconverter.document.DefaultDocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.DocumentFormat;
 import org.artofsolving.jodconverter.document.DocumentFormatRegistry;
+import org.artofsolving.jodconverter.filter.RefreshFilter;
 import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeManager;
 
@@ -31,7 +32,7 @@ public class OfficeDocumentConverter
 
     private final DocumentFormatRegistry formatRegistry;
 
-    private Map<String, ? > defaultLoadProperties = createDefaultLoadProperties();
+    private Map<String, ?> defaultLoadProperties = createDefaultLoadProperties();
 
     public OfficeDocumentConverter(OfficeManager officeManager)
     {
@@ -53,7 +54,7 @@ public class OfficeDocumentConverter
         return loadProperties;
     }
 
-    public void setDefaultLoadProperties(Map<String, ? > defaultLoadProperties)
+    public void setDefaultLoadProperties(Map<String, ?> defaultLoadProperties)
     {
         this.defaultLoadProperties = defaultLoadProperties;
     }
@@ -77,6 +78,7 @@ public class OfficeDocumentConverter
         StandardConversionTask conversionTask = new StandardConversionTask(inputFile, outputFile, outputFormat);
         conversionTask.setDefaultLoadProperties(this.defaultLoadProperties);
         conversionTask.setInputFormat(inputFormat);
+        conversionTask.getFilters().add(new RefreshFilter());
         this.officeManager.execute(conversionTask);
     }
 }
