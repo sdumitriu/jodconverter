@@ -26,7 +26,7 @@ public class JsonDocumentFormatRegistry extends SimpleDocumentFormatRegistry
 {
     public JsonDocumentFormatRegistry(InputStream input) throws JSONException, IOException
     {
-        readJsonArray(IOUtils.toString(input));
+        readJsonArray(IOUtils.toString(input, "UTF-8"));
     }
 
     public JsonDocumentFormatRegistry(String source) throws JSONException

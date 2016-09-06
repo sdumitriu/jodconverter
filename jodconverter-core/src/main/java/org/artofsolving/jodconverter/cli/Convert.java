@@ -17,11 +17,11 @@ import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
@@ -75,7 +75,7 @@ public class Convert
 
     public static void main(String[] arguments) throws ParseException, JSONException, IOException
     {
-        CommandLineParser commandLineParser = new PosixParser();
+        CommandLineParser commandLineParser = new DefaultParser();
         CommandLine commandLine = commandLineParser.parse(OPTIONS, arguments);
 
         String outputFormat = null;
@@ -100,7 +100,7 @@ public class Convert
         DocumentFormatRegistry registry;
         if (commandLine.hasOption(OPTION_REGISTRY.getOpt())) {
             File registryFile = new File(commandLine.getOptionValue(OPTION_REGISTRY.getOpt()));
-            registry = new JsonDocumentFormatRegistry(FileUtils.readFileToString(registryFile));
+            registry = new JsonDocumentFormatRegistry(FileUtils.readFileToString(registryFile, "UTF-8"));
         } else {
             registry = new DefaultDocumentFormatRegistry();
         }

@@ -156,11 +156,11 @@ class OfficeProcess
                 .fine("no %OFFICE_HOME%/basis-link found; assuming it's OOo 2.x and we don't need to append URE and Basic paths");
             return;
         }
-        String basisLinkText = FileUtils.readFileToString(basisLink).trim();
+        String basisLinkText = FileUtils.readFileToString(basisLink, "UTF-8").trim();
         File basisHome = new File(this.officeHome, basisLinkText);
         File basisProgram = new File(basisHome, "program");
         File ureLink = new File(basisHome, "ure-link");
-        String ureLinkText = FileUtils.readFileToString(ureLink).trim();
+        String ureLinkText = FileUtils.readFileToString(ureLink, "UTF-8").trim();
         File ureHome = new File(basisHome, ureLinkText);
         File ureBin = new File(ureHome, "bin");
         Map<String, String> environment = processBuilder.environment();

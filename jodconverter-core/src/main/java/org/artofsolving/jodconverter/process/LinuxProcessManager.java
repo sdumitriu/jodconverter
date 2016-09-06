@@ -77,8 +77,7 @@ public class LinuxProcessManager implements ProcessManager
             command = args;
         }
         Process process = new ProcessBuilder(command).start();
-        @SuppressWarnings("unchecked")
-        List<String> lines = IOUtils.readLines(process.getInputStream());
+        List<String> lines = IOUtils.readLines(process.getInputStream(), "UTF-8");
         return lines;
     }
 }
