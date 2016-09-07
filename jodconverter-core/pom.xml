@@ -10,7 +10,7 @@
 
   <groupId>org.artofsolving.jodconverter</groupId>
   <artifactId>jodconverter-core</artifactId>
-  <version>3.1-xwiki-SNAPSHOT</version>
+  <version>3.1-xwiki</version>
   <packaging>jar</packaging>
 
   <name>JODConverter - Core Library</name>
@@ -32,7 +32,7 @@
     <connection>scm:git:git://github.com/xwiki/jodconverter.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/jodconverter.git</developerConnection>
     <url>https://github.com/xwiki/jodconverter/tree/master/</url>
-    <tag>HEAD</tag>
+    <tag>jodconverter-core-3.1-xwiki</tag>
   </scm>
   <inceptionYear>2003</inceptionYear>
   <developers>
