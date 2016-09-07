@@ -125,7 +125,7 @@ public class DefaultOfficeManagerConfiguration
      * Defaults to the system temporary directory as specified by the <code>java.io.tmpdir</code> system property.
      * 
      * @param workDir
-     * @return
+     * @return this configuration
      */
     public DefaultOfficeManagerConfiguration setWorkDir(File workDir)
     {
@@ -159,7 +159,7 @@ public class DefaultOfficeManagerConfiguration
      * {@link LinuxProcessManager} on Linux and {@link PureJavaProcessManager} on other platforms.
      * 
      * @param processManager
-     * @return
+     * @return this configuration
      * @throws NullPointerException
      */
     public DefaultOfficeManagerConfiguration setProcessManager(ProcessManager processManager)
@@ -174,7 +174,7 @@ public class DefaultOfficeManagerConfiguration
      * Retry timeout set in milliseconds. Used for retrying office process calls. If not set, it defaults to 2 minutes
      * 
      * @param retryTimeout in milliseconds
-     * @return
+     * @return this configuration
      */
     public DefaultOfficeManagerConfiguration setRetryTimeout(long retryTimeout)
     {

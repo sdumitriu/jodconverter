@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
  * {@link ProcessManager} implementation for Linux. Uses the <tt>ps</tt> and <tt>kill</tt> commands.
  * <p>
  * Should Work on Solaris too, except that the command line string returned by <tt>ps</tt> there is limited to 80
- * characters and this affects {@link #findPid(String)}.
+ * characters and this affects {@link #findPid(ProcessQuery)}.
  */
 public class LinuxProcessManager implements ProcessManager
 {
