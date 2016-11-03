@@ -32,6 +32,14 @@
       <email>mirko@artofsolving.com</email>
     </developer>
   </developers>
+  
+  <repositories>
+  	<repository>
+      <id>nexus.xwiki.org</id>
+      <name>XWiki Maven Remote Repository for Externals</name>
+      <url>http://nexus.xwiki.org/nexus/content/repositories/externals/</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
