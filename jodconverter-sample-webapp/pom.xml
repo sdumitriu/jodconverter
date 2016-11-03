@@ -6,7 +6,7 @@
 
   <groupId>org.artofsolving.jodconverter</groupId>
   <artifactId>jodconverter-sample-webapp</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.1-xwiki</version>
   <packaging>war</packaging>
 
   <name>JODConverter - Sample Web Application</name>
@@ -32,6 +32,14 @@
       <email>mirko@artofsolving.com</email>
     </developer>
   </developers>
+  
+  <repositories>
+  	<repository>
+      <id>nexus.xwiki.org</id>
+      <name>XWiki Maven Remote Repository for Externals</name>
+      <url>http://nexus.xwiki.org/nexus/content/repositories/externals/</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>

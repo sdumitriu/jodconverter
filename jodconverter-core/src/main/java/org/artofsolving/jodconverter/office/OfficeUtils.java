@@ -78,7 +78,8 @@ public class OfficeUtils
             }
             return findOfficeHome(
                 programFiles + File.separator + "OpenOffice.org 3",
-                programFiles + File.separator + "LibreOffice 3");
+                programFiles + File.separator + "LibreOffice 3",
+                programFiles + File.separator + "LibreOffice 5");
         } else if (PlatformUtils.isMac()) {
             return findOfficeHome(
                 "/Applications/OpenOffice.org.app/Contents",
