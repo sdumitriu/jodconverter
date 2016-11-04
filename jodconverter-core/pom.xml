@@ -1,82 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
-    <groupId>org.xwiki.commons</groupId>
-    <artifactId>xwiki-commons-pom</artifactId>
-    <version>7.4.4</version>
+    <groupId>org.artofsolving.jodconverter</groupId>
+    <artifactId>jodconverter-pom</artifactId>
+    <version>3.2-xwiki-SNAPSHOT</version>
   </parent>
-
-  <groupId>org.artofsolving.jodconverter</groupId>
   <artifactId>jodconverter-core</artifactId>
-  <version>3.2-xwiki-SNAPSHOT</version>
   <packaging>jar</packaging>
-
   <name>JODConverter - Core Library</name>
-  <description>
-    Java OpenDocument Converter converts office documents using LibreOffice or OpenOffice
-  </description>
-  <url>http://jodconverter.googlecode.com</url>
-  <licenses>
-    <license>
-      <name>GNU Lesser General Public License, Version 3 or later</name>
-      <url>http://www.gnu.org/licenses/lgpl.html</url>
-    </license>
-  </licenses>
-  <issueManagement>
-    <system>jira</system>
-    <url>http://jira.xwiki.org/jira/browse/XJODC</url>
-  </issueManagement>
-  <scm>
-    <connection>scm:git:git://github.com/xwiki/jodconverter.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki/jodconverter.git</developerConnection>
-    <url>https://github.com/xwiki/jodconverter/tree/master/</url>
-    <tag>HEAD</tag>
-  </scm>
-  <inceptionYear>2003</inceptionYear>
-  <developers>
-    <developer>
-      <id>mirko.nasato</id>
-      <name>Mirko Nasato</name>
-      <email>mirko@artofsolving.com</email>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Shervin Asgari</name>
-      <email>shervin@asgari.no</email>
-    </contributor>
-    <contributor>
-      <name>XWiki Development Team</name>
-    </contributor>
-  </contributors>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <office.version>5.2.0</office.version>
-  </properties>
-
-  <repositories>
-    <repository>
-      <!-- required for org.hyperic:sigar -->
-      <id>jboss-public-repository-group</id>
-      <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>nexus.xwiki.org</id>
-      <name>XWiki Maven Remote Repository for Externals</name>
-      <url>http://nexus.xwiki.org/nexus/content/repositories/externals/</url>
-    </repository>
-  </distributionManagement>
-
+  <description>Java OpenDocument Converter converts office documents using LibreOffice or OpenOffice</description>
   <dependencies>
-
     <!-- Required dependencies -->
-
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -101,9 +62,7 @@
       <artifactId>unoil</artifactId>
       <version>${office.version}</version>
     </dependency>
-
     <!-- Optional dependencies -->
-
     <dependency>
       <!-- for the command line tool -->
       <groupId>commons-cli</groupId>
@@ -125,18 +84,14 @@
       <version>20160810</version>
       <optional>true</optional>
     </dependency>
-
     <!--  Test dependencies -->
-
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>6.9.10</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -187,7 +142,6 @@
       </plugin>
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
@@ -200,5 +154,4 @@
       </plugin>
     </plugins>
   </reporting>
-
 </project>
