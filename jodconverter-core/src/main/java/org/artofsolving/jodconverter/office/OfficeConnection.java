@@ -131,4 +131,10 @@ class OfficeConnection implements OfficeContext
             throw new OfficeException(String.format("failed to obtain service '%s'", serviceName), exception);
         }
     }
+
+    @Override
+    public XComponentContext getComponentContext()
+    {
+        return this.componentContext;
+    }
 }

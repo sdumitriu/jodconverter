@@ -22,15 +22,22 @@ package org.artofsolving.jodconverter.filter;
 import org.artofsolving.jodconverter.office.OfficeContext;
 import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeUtils;
+import org.artofsolving.jodconverter.util.Info;
 
 import com.sun.star.awt.Size;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexAccess;
+import com.sun.star.graphic.XGraphic;
 import com.sun.star.graphic.XGraphicProvider;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.text.XTextGraphicObjectsSupplier;
+import com.sun.star.uno.Any;
+import com.sun.star.text.XTextContent;
+import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
 
 /**
  * Embeds external images.
@@ -44,35 +51,75 @@ public class ImageEmbedderFilter implements OfficeDocumentFilter
     public void filter(XComponent document, OfficeContext context) throws OfficeException
     {
         if (OfficeUtils.cast(XServiceInfo.class, document).supportsService("com.sun.star.text.GenericTextDocument")) {
-            embedWriterImages(document, context);
+            try {
+                convertLinkedImagesToEmbeded(context.getComponentContext(), document);
+            } catch (Exception e) {
+                // skip this graphic
+            }
         }
     }
 
-    private void embedWriterImages(XComponent document, OfficeContext context)
-    {
-        XIndexAccess indexAccess = OfficeUtils.cast(XIndexAccess.class,
-            OfficeUtils.cast(XTextGraphicObjectsSupplier.class, document).getGraphicObjects());
-        XGraphicProvider graphicProvider =
-            OfficeUtils.cast(XGraphicProvider.class, context.getService("com.sun.star.graphic.GraphicProvider"));
-        PropertyValue[] queryProperties = new PropertyValue[] {new PropertyValue()};
-        queryProperties[0].Name = "URL";
+    /**
+     * This method has been inspired by
+     * <a href="http://github.com/sbraconnier/jodconverter">JodConverter's official LinkedImageEmbeddedFilter</a>.
+     */
+    private void convertLinkedImagesToEmbeded(
+        final XComponentContext context, final XComponent document) throws Exception {
+
+        // Create a GraphicProvider.
+        final XGraphicProvider graphicProvider =
+            UnoRuntime.queryInterface(
+                XGraphicProvider.class,
+                context
+                    .getServiceManager()
+                    .createInstanceWithContext("com.sun.star.graphic.GraphicProvider", context));
+        final XIndexAccess indexAccess =
+            UnoRuntime.queryInterface(
+                XIndexAccess.class,
+                UnoRuntime.queryInterface(XTextGraphicObjectsSupplier.class, document)
+                    .getGraphicObjects());
         for (int i = 0; i < indexAccess.getCount(); i++) {
-            try {
-                XPropertySet graphicProperties = OfficeUtils.cast(XPropertySet.class, indexAccess.getByIndex(i));
-                String graphicURL = (String) graphicProperties.getPropertyValue("GraphicURL");
-                if (!graphicURL.contains("vnd.sun.star.GraphicObject")) {
-                    queryProperties[0].Value = graphicURL;
-                    // Before embedding the image, the "ActualSize" property holds the image size specified in the
-                    // document content. If the width or height are not specified then their actual values will be 0.
-                    Size specifiedSize = OfficeUtils.cast(Size.class, graphicProperties.getPropertyValue("ActualSize"));
-                    graphicProperties.setPropertyValue("Graphic", graphicProvider.queryGraphic(queryProperties));
-                    // Images are embedded as characters (see TextContentAnchorType.AS_CHARACTER) and their size is
-                    // messed up if it's not explicitly specified (e.g. if the image height is not specified then it
-                    // takes the line height).
-                    adjustImageSize(graphicProperties, specifiedSize);
+            final Any xImageAny = (Any) indexAccess.getByIndex(i);
+            final Object xImageObject = xImageAny.getObject();
+            final XTextContent xImage = (XTextContent) xImageObject;
+            final XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xImage);
+            if (xInfo.supportsService("com.sun.star.text.TextGraphicObject")) {
+                final XPropertySet xPropSet = UnoRuntime.queryInterface(XPropertySet.class, xImage);
+                if (Info.isLibreOffice(context)
+                    && Info.compareVersions(Info.getOfficeVersionShort(context), "6.1", 2) >= 0) {
+                    final XGraphic xGraphic =
+                        (XGraphic)
+                            AnyConverter.toObject(XGraphic.class, xPropSet.getPropertyValue("Graphic"));
+                    // Only ones that are not embedded
+                    final XPropertySet xGraphixPropSet = UnoRuntime.queryInterface(XPropertySet.class, xGraphic);
+                    boolean linked = (boolean) xGraphixPropSet.getPropertyValue("Linked");
+                    if (linked) {
+                        // Since 6.1, we must use "Graphic" instead of "GraphicURL"
+                        final PropertyValue[] props =
+                            new PropertyValue[] {new PropertyValue(), new PropertyValue()};
+                        props[0].Name = "URL";
+                        props[0].Value = xGraphixPropSet.getPropertyValue("OriginURL").toString();
+                        props[1].Name = "LoadAsLink";
+                        props[1].Value = false;
+                        xPropSet.setPropertyValue("Graphic", graphicProvider.queryGraphic(props));
+                    }
+                } else {
+                    final String graphicURL = xPropSet.getPropertyValue("GraphicURL").toString();
+                    XPropertySet graphicProperties = OfficeUtils.cast(XPropertySet.class, indexAccess.getByIndex(i));
+                    PropertyValue[] queryProperties = new PropertyValue[] {new PropertyValue()};
+                    // Only ones that are not embedded
+                    if (graphicURL.indexOf("vnd.sun.") == -1) {
+                        queryProperties[0].Value = graphicURL;
+                        // Before embedding the image, the "ActualSize" property holds the image size specified in the
+                        // document content. If the width or height are not specified then their actual values will be 0.
+                        Size specifiedSize = OfficeUtils.cast(Size.class, graphicProperties.getPropertyValue("ActualSize"));
+                        graphicProperties.setPropertyValue("Graphic", graphicProvider.queryGraphic(queryProperties));
+                        // Images are embedded as characters (see TextContentAnchorType.AS_CHARACTER) and their size is
+                        // messed up if it's not explicitly specified (e.g. if the image height is not specified then it
+                        // takes the line height).
+                        adjustImageSize(graphicProperties, specifiedSize);
+                    }
                 }
-            } catch (Exception e) {
-                // Skip this graphic.
             }
         }
     }

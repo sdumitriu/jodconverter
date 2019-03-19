@@ -12,7 +12,11 @@
 //
 package org.artofsolving.jodconverter.office;
 
+import com.sun.star.uno.XComponentContext;
+
 public interface OfficeContext
 {
     Object getService(String serviceName);
+
+    XComponentContext getComponentContext();
 }
